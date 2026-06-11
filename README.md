@@ -111,11 +111,14 @@ python3 -m http.server 8765
 ## 🎓 Informações acadêmicas
 
 - **Instituição:** USJT — Universidade São Judas Tadeu
-- **Curso:** [Preencher com o nome do curso]
-- **Disciplina:** [Preencher com o nome da disciplina]
-- **Professor(a):** [Preencher com o nome do professor]
-- **Aluno(a):** [Preencher com o nome do aluno]
-- **Semestre:** [Preencher com o semestre/ano]
+- **Curso:** Engenharia de Software
+- **Disciplina:** Usabilidade, Desenvolvimento Web, Mobile e Jogos
+- **Professor:** Marcelo Amorim
+- **Alunos:**
+  - Lucas Melo Almeida dos Santos — 82327243
+  - Vitor Souto da Silva — 823211144
+  - Leonardo Ribeiro De Sousa — 82329832
+- **Semestre:** 6º Semestre
 
 ---
 
