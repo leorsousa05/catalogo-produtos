@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre — L'Index</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Libre+Franklin:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <main class="about-page">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image">
+          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop" alt="Interior de galeria minimalista com móveis de design">
+        </div>
+        <div class="about-text">
+          <h2>Sobre a<br><em>L'Index</em></h2>
+          <p>A L'Index nasceu da crença de que os objetos que escolhemos para nos cercar devem ter significado. Não se trata apenas de funcionalidade, mas de história, de proporção, de materialidade.</p>
+          <p>Cada peça deste catálogo foi selecionada como se estivesse sendo escolhida para uma galeria particular. Buscamos formas atemporais, acabamentos honestos e aquele detalhe imperceptível que separa o comum do extraordinário.</p>
+
+          <blockquote class="pull-quote">
+            "O luxo não está no excesso, mas na precisão de cada escolha."
+          </blockquote>
+
+          <p>Este é um projeto acadêmico desenvolvido para demonstrar a construção de interfaces web modernas utilizando apenas tecnologias front-end puras. A experiência integra consumo de API, manipulação de DOM e persistência de dados no navegador.</p>
+          <a href="index.html" class="btn-secondary">Explorar catálogo</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderizarHeader();
+      renderizarFooter();
+    });
+  </script>
+</body>
+</html>

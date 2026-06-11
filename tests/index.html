@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Testes — L'Index</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      background: #f9f9f9;
+      color: #1a1a1a;
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 1rem; }
+    .test-suite { margin-bottom: 2rem; }
+    .test-suite h2 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .test { padding: 0.5rem; border-left: 3px solid #ccc; margin-bottom: 0.5rem; background: #fff; }
+    .test.pass { border-left-color: #2e7d32; }
+    .test.fail { border-left-color: #c62828; }
+    .summary { font-weight: 600; margin-top: 1rem; padding: 1rem; background: #fff; }
+  </style>
+</head>
+<body>
+  <h1>Testes L'Index</h1>
+  <div id="results"></div>
+
+  <script>
+    // Mock localStorage
+    const storage = {};
+    Object.defineProperty(window, 'localStorage', {
+      value: {
+        getItem: (key) => storage[key] || null,
+        setItem: (key, value) => { storage[key] = String(value); },
+        removeItem: (key) => { delete storage[key]; }
+      },
+      writable: true
+    });
+  </script>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/cart.js"></script>
+
+  <script>
+    let results = document.getElementById('results');
+    let passCount = 0;
+    let failCount = 0;
+
+    function assert(name, condition) {
+      const el = document.createElement('div');
+      el.className = 'test ' + (condition ? 'pass' : 'fail');
+      el.textContent = (condition ? '✓ ' : '✗ ') + name;
+      results.appendChild(el);
+      if (condition) passCount++; else failCount++;
+    }
+
+    function suite(title, fn) {
+      const h2 = document.createElement('h2');
+      h2.textContent = title;
+      const div = document.createElement('div');
+      div.className = 'test-suite';
+      div.appendChild(h2);
+      results.appendChild(div);
+      const old = results;
+      results = div;
+      fn();
+      results = old;
+    }
+
+    suite('utils.js', () => {
+      assert('formatarPreco formata 10.5 como US$ 10,50', formatarPreco(10.5) === 'US$\u00A010,50');
+      assert('normalizarTexto remove acentos', normalizarTexto('Café') === 'cafe');
+      assert('filtrarProdutos filtra por nome', filtrarProdutos([
+        { title: 'iPhone 13' },
+        { title: 'Samsung Galaxy' }
+      ], 'iphone').length === 1);
+      assert('ordenarProdutos ordena por preço menor', ordenarProdutos([
+        { title: 'A', price: 30 },
+        { title: 'B', price: 10 }
+      ], 'preco-menor')[0].price === 10);
+      assert('ordenarProdutos ordena por nome A-Z', ordenarProdutos([
+        { title: 'Banana' },
+        { title: 'Apple' }
+      ], 'nome-asc')[0].title === 'Apple');
+      assert('extrairCategorias retorna categorias únicas', extrairCategorias([
+        { category: 'a' },
+        { category: 'b' },
+        { category: 'a' }
+      ]).length === 2);
+    });
+
+    suite('cart.js', () => {
+      limparCarrinho();
+      assert('carrinho inicia vazio', obterCarrinho().length === 0);
+
+      adicionarAoCarrinho(1, 2);
+      assert('adicionarAoCarrinho cria item', obterCarrinho().length === 1);
+      assert('adicionarAoCarrinho armazena quantidade', obterCarrinho()[0].quantidade === 2);
+
+      adicionarAoCarrinho(1, 3);
+      assert('adicionarAoCarrinho incrementa quantidade', obterCarrinho()[0].quantidade === 5);
+
+      adicionarAoCarrinho(2, 1);
+      assert('adicionarAoCarrinho adiciona novo item', obterCarrinho().length === 2);
+
+      atualizarQuantidade(1, 10);
+      assert('atualizarQuantidade altera valor', obterCarrinho().find(i => i.id === 1).quantidade === 10);
+
+      atualizarQuantidade(1, 0);
+      assert('atualizarQuantidade 0 remove item', !obterCarrinho().find(i => i.id === 1));
+
+      removerDoCarrinho(2);
+      assert('removerDoCarrinho remove item', obterCarrinho().length === 0);
+
+      adicionarAoCarrinho(5, 3);
+      adicionarAoCarrinho(7, 2);
+      assert('contarItensCarrinho soma quantidades', contarItensCarrinho() === 5);
+
+      const total = calcularSubtotal(
+        [{ id: 5, quantidade: 2 }, { id: 7, quantidade: 1 }],
+        [{ id: 5, price: 10 }, { id: 7, price: 25 }]
+      );
+      assert('calcularSubtotal retorna 45', total === 45);
+
+      limparCarrinho();
+      assert('limparCarrinho esvazia', obterCarrinho().length === 0);
+    });
+
+    const summary = document.createElement('div');
+    summary.className = 'summary';
+    summary.textContent = `${passCount} passaram · ${failCount} falharam · ${passCount + failCount} total`;
+    document.body.appendChild(summary);
+  </script>
+</body>
+</html>
